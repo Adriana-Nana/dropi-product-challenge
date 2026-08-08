@@ -1,13 +1,14 @@
 // ======================================================
 // PRODUCT DECISION FRAMEWORK
-// Versión 3.0 - Dropi Challenge
+// Dropi Challenge
+// Versión 4.0
 // ======================================================
 
 const startBtn = document.getElementById("startBtn");
 const content = document.getElementById("content");
 
 //======================================================
-// Estado de la aplicación
+// Estado global
 //======================================================
 
 const appState = {
@@ -19,11 +20,15 @@ const appState = {
         initialDecision: "",
         businessReason: "",
 
-        step2Selections: [],
-        step2Strategy: "",
+        evidence: [],
 
-        opportunityHypothesis: "",
-        hypothesisEvidence: ""
+        strategy: "",
+
+        hypothesis: "",
+        hypothesisEvidence: "",
+
+        impactReason: "",
+        risk: ""
 
     },
 
@@ -53,48 +58,33 @@ const appState = {
 const steps = [
 
     {
-
-        title: "Descubrimiento basado en evidencia",
-
+        title: "Información existente",
         description:
-            "Comprende el reto del negocio y decide dónde iniciar el análisis."
-
+            "Comprende el reto del negocio y define por dónde iniciar el análisis."
     },
 
     {
-
-        title: "Priorización de la evidencia",
-
+        title: "Priorización de evidencia",
         description:
             "Selecciona la evidencia necesaria para validar tu decisión."
-
     },
 
     {
-
         title: "Hipótesis de mayor oportunidad",
-
         description:
             "Formula la hipótesis con mayor potencial de impacto."
-
     },
 
     {
-
         title: "Análisis de la oportunidad",
-
         description:
-            "Justifica por qué esta hipótesis representa la mejor oportunidad para el negocio."
-
+            "Justifica por qué esta hipótesis representa la mejor oportunidad."
     },
 
     {
-
-        title: "Decisión recomendada",
-
+        title: "Respuesta al desafío",
         description:
-            "El framework consolida la evidencia y responde el desafío de negocio."
-
+            "El Framework responde la pregunta del negocio y recomienda el siguiente paso."
     }
 
 ];
@@ -107,7 +97,7 @@ startBtn.addEventListener("click", () => {
 
     startBtn.style.display = "none";
 
-    loadStep(0);
+    goToStep(0);
 
 });
 
@@ -115,7 +105,7 @@ startBtn.addEventListener("click", () => {
 // Navegación
 //======================================================
 
-function loadStep(step) {
+function goToStep(step){
 
     appState.currentStep = step;
 
@@ -123,7 +113,7 @@ function loadStep(step) {
 
     updateProgress();
 
-    switch (step) {
+    switch(step){
 
         case 0:
             renderStep1();
@@ -153,23 +143,23 @@ function loadStep(step) {
 // Sidebar
 //======================================================
 
-function updateSidebar() {
+function updateSidebar(){
 
-    for (let i = 1; i <= 5; i++) {
+    for(let i=1;i<=5;i++){
 
-        const item = document.getElementById("step" + i);
+        const item=document.getElementById("step"+i);
 
-        if (!item) continue;
+        if(!item) continue;
 
-        item.classList.remove("active", "completed");
+        item.classList.remove("active","completed");
 
-        if (i - 1 < appState.currentStep) {
+        if(i-1<appState.currentStep){
 
             item.classList.add("completed");
 
         }
 
-        if (i - 1 === appState.currentStep) {
+        if(i-1===appState.currentStep){
 
             item.classList.add("active");
 
@@ -183,169 +173,229 @@ function updateSidebar() {
 // Barra de progreso
 //======================================================
 
-function updateProgress() {
+function updateProgress(){
 
-    const percentages = [20, 40, 60, 80, 100];
+    const progress=[20,40,60,80,100];
 
-    const insights = [
+    const insights=[
 
         "Se definió el punto de partida del análisis.",
 
-        "La evidencia priorizada ya orienta la investigación.",
+        "La evidencia ya permite orientar la investigación.",
 
-        "Existe una hipótesis de mayor oportunidad.",
+        "Existe una hipótesis priorizada.",
 
-        "La hipótesis ya cuenta con una justificación.",
+        "La oportunidad quedó justificada.",
 
-        "El framework está listo para responder el desafío."
+        "El Framework respondió el desafío."
 
     ];
 
-    const progressBar = document.getElementById("progressBar");
-    const progressText = document.getElementById("progressText");
-    const insightText = document.getElementById("insightText");
+    document.getElementById("progressBar").style.width=progress[appState.currentStep]+"%";
 
-    if (progressBar) {
+    document.getElementById("progressText").innerText=progress[appState.currentStep]+"%";
 
-        progressBar.style.width = percentages[appState.currentStep] + "%";
-
-    }
-
-    if (progressText) {
-
-        progressText.innerText = percentages[appState.currentStep] + "%";
-
-    }
-
-    if (insightText) {
-
-        insightText.innerText = insights[appState.currentStep];
-
-    }
+    document.getElementById("insightText").innerText=insights[appState.currentStep];
 
 }
+// ======================================================
+// PRODUCT DECISION FRAMEWORK
+// Dropi Challenge
+// Versión 4.0
+// ======================================================
+
+const startBtn = document.getElementById("startBtn");
+const content = document.getElementById("content");
+
 //======================================================
-// PASO 1 - DESCUBRIMIENTO BASADO EN EVIDENCIA
+// Estado global
 //======================================================
 
-function renderStep1(){
+const appState = {
 
-content.innerHTML=`
+    currentStep: 0,
 
-<div class="card">
+    discovery: {
 
-<h3>${steps[0].title}</h3>
+        initialDecision: "",
+        businessReason: "",
 
-<p>
+        evidence: [],
 
-El objetivo de esta primera fase es comprender el caso de negocio y decidir, con base en la evidencia disponible, dónde existe la mayor oportunidad de generar impacto.
+        strategy: "",
 
-</p>
+        hypothesis: "",
+        hypothesisEvidence: "",
 
-<div class="info-note">
+        impactReason: "",
+        risk: ""
 
-<strong>ℹ️ ¿Qué significa "Proveedor en proceso de activación"?</strong>
+    },
 
-<p>
+    recommendation: {
 
-Corresponde al proveedor que ya conoce Dropi, se registró, publicó su catálogo y completó el proceso inicial de configuración, pero <strong>aún no ha realizado su primera venta.</strong>
+        frameworkRecommendation: "",
+        accepted: true,
+        justification: ""
 
-El proceso de activación comprende todo el recorrido desde el registro hasta la primera venta exitosa.
+    },
 
-</p>
+    validation: {
 
-</div>
+        hypothesis: "",
+        experiment: "",
+        kpis: "",
+        duration: ""
 
-<label>
+    }
 
-Con la información disponible, ¿por dónde iniciarías el análisis?
+};
 
-</label>
+//======================================================
+// Configuración del Framework
+//======================================================
 
-<div class="options">
+const steps = [
 
-<label>
+    {
+        title: "Información existente",
+        description:
+            "Comprende el reto del negocio y define por dónde iniciar el análisis."
+    },
 
-<input
-type="radio"
-name="decision"
-value="Activacion">
+    {
+        title: "Priorización de evidencia",
+        description:
+            "Selecciona la evidencia necesaria para validar tu decisión."
+    },
 
-Proveedores en proceso de activación
+    {
+        title: "Hipótesis de mayor oportunidad",
+        description:
+            "Formula la hipótesis con mayor potencial de impacto."
+    },
 
-</label>
+    {
+        title: "Análisis de la oportunidad",
+        description:
+            "Justifica por qué esta hipótesis representa la mejor oportunidad."
+    },
 
-<label>
+    {
+        title: "Respuesta al desafío",
+        description:
+            "El Framework responde la pregunta del negocio y recomienda el siguiente paso."
+    }
 
-<input
-type="radio"
-name="decision"
-value="Activos">
+];
 
-Proveedores activos con bajas ventas
+//======================================================
+// Inicio
+//======================================================
 
-</label>
+startBtn.addEventListener("click", () => {
 
-<label>
+    startBtn.style.display = "none";
 
-<input
-type="radio"
-name="decision"
-value="Ambos">
+    goToStep(0);
 
-Analizar ambos grupos antes de decidir
+});
 
-</label>
+//======================================================
+// Navegación
+//======================================================
 
-</div>
+function goToStep(step){
 
-<label>
+    appState.currentStep = step;
 
-¿Por qué consideras que este grupo representa la mayor oportunidad para alcanzar el objetivo del negocio?
+    updateSidebar();
 
-</label>
+    updateProgress();
 
-<textarea
+    switch(step){
 
-id="businessReason"
+        case 0:
+            renderStep1();
+            break;
 
-placeholder="Explica brevemente por qué comenzarías por este grupo.">
+        case 1:
+            renderStep2();
+            break;
 
-</textarea>
+        case 2:
+            renderStep3();
+            break;
 
-<button
+        case 3:
+            renderStep4();
+            break;
 
-class="nextBtn"
+        case 4:
+            renderStep5();
+            break;
 
-onclick="saveStep1()">
-
-Continuar →
-
-</button>
-
-</div>
-
-`;
+    }
 
 }
 
-function saveStep1(){
+//======================================================
+// Sidebar
+//======================================================
 
-const selected=document.querySelector('input[name="decision"]:checked');
+function updateSidebar(){
 
-if(!selected){
+    for(let i=1;i<=5;i++){
 
-alert("Selecciona una opción para continuar.");
+        const item=document.getElementById("step"+i);
 
-return;
+        if(!item) continue;
+
+        item.classList.remove("active","completed");
+
+        if(i-1<appState.currentStep){
+
+            item.classList.add("completed");
+
+        }
+
+        if(i-1===appState.currentStep){
+
+            item.classList.add("active");
+
+        }
+
+    }
 
 }
 
-appState.discovery.initialDecision=selected.value;
+//======================================================
+// Barra de progreso
+//======================================================
 
-appState.discovery.businessReason=document.getElementById("businessReason").value;
+function updateProgress(){
 
-loadStep(1);
+    const progress=[20,40,60,80,100];
+
+    const insights=[
+
+        "Se definió el punto de partida del análisis.",
+
+        "La evidencia ya permite orientar la investigación.",
+
+        "Existe una hipótesis priorizada.",
+
+        "La oportunidad quedó justificada.",
+
+        "El Framework respondió el desafío."
+
+    ];
+
+    document.getElementById("progressBar").style.width=progress[appState.currentStep]+"%";
+
+    document.getElementById("progressText").innerText=progress[appState.currentStep]+"%";
+
+    document.getElementById("insightText").innerText=insights[appState.currentStep];
 
 }
 //======================================================
@@ -354,19 +404,145 @@ loadStep(1);
 
 function renderStep2(){
 
+let html="";
+
+const decision=appState.discovery.initialDecision;
+
+//--------------------------------------------------
+// ACTIVACIÓN
+//--------------------------------------------------
+
+if(decision==="Activacion"){
+
+html=`
+
+<label>
+
+¿Qué evidencia analizarías para comprender por qué estos proveedores aún no logran su primera venta?
+
+</label>
+
+<div class="checkbox-grid">
+
+<label><input type="checkbox" value="Tiempo desde el registro">Tiempo desde el registro</label>
+
+<label><input type="checkbox" value="Productos publicados">Productos publicados</label>
+
+<label><input type="checkbox" value="Calidad de imágenes">Calidad de imágenes</label>
+
+<label><input type="checkbox" value="Descripción de productos">Descripción de productos</label>
+
+<label><input type="checkbox" value="Conversión a primera venta">Conversión a primera venta</label>
+
+<label><input type="checkbox" value="Abandono del proceso de activación">Abandono del proceso de activación</label>
+
+<label><input type="checkbox" value="Acompañamiento recibido">Acompañamiento recibido</label>
+
+<label><input type="checkbox" value="Uso de herramientas Dropi">Uso de herramientas Dropi</label>
+
+</div>
+
+`;
+
+}
+
+//--------------------------------------------------
+// ACTIVOS
+//--------------------------------------------------
+
+if(decision==="Activos"){
+
+html=`
+
+<label>
+
+¿Qué evidencia analizarías para explicar la disminución en las ventas?
+
+</label>
+
+<div class="checkbox-grid">
+
+<label><input type="checkbox" value="Ventas">Ventas</label>
+
+<label><input type="checkbox" value="Cumplimiento SLA">Cumplimiento SLA</label>
+
+<label><input type="checkbox" value="Cancelaciones">Cancelaciones</label>
+
+<label><input type="checkbox" value="Garantías">Garantías</label>
+
+<label><input type="checkbox" value="Rechazos">Rechazos</label>
+
+<label><input type="checkbox" value="Tiempo de despacho">Tiempo promedio de despacho</label>
+
+<label><input type="checkbox" value="Calificación">Calificación del proveedor</label>
+
+<label><input type="checkbox" value="Feedback clientes">Feedback de clientes</label>
+
+</div>
+
+`;
+
+}
+
+//--------------------------------------------------
+// AMBOS
+//--------------------------------------------------
+
+if(decision==="Ambos"){
+
+html=`
+
+<label>
+
+Antes de profundizar, ¿qué estrategia utilizarías?
+
+</label>
+
+<div class="options">
+
+<label>
+
+<input type="radio" name="strategy" value="Activacion">
+
+Analizar primero proveedores en proceso de activación
+
+</label>
+
+<label>
+
+<input type="radio" name="strategy" value="Activos">
+
+Analizar primero proveedores activos con bajas ventas
+
+</label>
+
+<label>
+
+<input type="radio" name="strategy" value="Comparar">
+
+Comparar ambos grupos antes de priorizar
+
+</label>
+
+</div>
+
+`;
+
+}
+
 content.innerHTML=`
 
 <div class="card">
 
-<h3>${steps[1].title}</h3>
+<h3>Priorización de la evidencia</h3>
 
 <p>
 
-Ahora selecciona la evidencia que analizarías para validar la decisión tomada en el paso anterior.
+Toda decisión de producto debe estar respaldada por evidencia. Selecciona la información que considerarías necesaria antes de formular una hipótesis.
 
 </p>
 
-${getStep2Content()}
+${html}
 
 <button
 
@@ -384,162 +560,47 @@ Guardar y continuar →
 
 }
 
-function getStep2Content(){
-
-const decision=appState.discovery.initialDecision;
-
-//------------------------------------------------------
-// PROVEEDORES EN ACTIVACIÓN
-//------------------------------------------------------
-
-if(decision==="Activacion"){
-
-return`
-
-<label>
-
-¿Qué evidencia revisarías para entender por qué estos proveedores aún no realizan su primera venta?
-
-</label>
-
-<div class="checkbox-grid">
-
-<label><input type="checkbox" value="Catálogo publicado">Catálogo publicado</label>
-
-<label><input type="checkbox" value="Calidad de imágenes">Calidad de imágenes</label>
-
-<label><input type="checkbox" value="Tiempo desde el registro">Tiempo desde el registro</label>
-
-<label><input type="checkbox" value="Productos publicados">Productos publicados</label>
-
-<label><input type="checkbox" value="Conversión a primera venta">Conversión a primera venta</label>
-
-<label><input type="checkbox" value="Abandono del proceso de activación">Abandono del proceso de activación</label>
-
-<label><input type="checkbox" value="Acompañamiento recibido">Acompañamiento recibido</label>
-
-<label><input type="checkbox" value="Uso de herramientas de Dropi">Uso de herramientas de Dropi</label>
-
-</div>
-
-`;
-
-}
-
-//------------------------------------------------------
-// PROVEEDORES ACTIVOS
-//------------------------------------------------------
-
-if(decision==="Activos"){
-
-return`
-
-<label>
-
-¿Qué evidencia revisarías para explicar la disminución en las ventas?
-
-</label>
-
-<div class="checkbox-grid">
-
-<label><input type="checkbox" value="Ventas">Ventas</label>
-
-<label><input type="checkbox" value="SLA">Cumplimiento SLA</label>
-
-<label><input type="checkbox" value="Cancelaciones">Cancelaciones</label>
-
-<label><input type="checkbox" value="Garantías">Garantías</label>
-
-<label><input type="checkbox" value="Rechazos">Rechazos</label>
-
-<label><input type="checkbox" value="Tiempo promedio de despacho">Tiempo promedio de despacho</label>
-
-<label><input type="checkbox" value="Calificación del proveedor">Calificación del proveedor</label>
-
-<label><input type="checkbox" value="Feedback de clientes">Feedback de clientes</label>
-
-</div>
-
-`;
-
-}
-
-//------------------------------------------------------
-// AMBOS GRUPOS
-//------------------------------------------------------
-
-return`
-
-<label>
-
-Antes de profundizar, ¿qué estrategia utilizarías?
-
-</label>
-
-<div class="options">
-
-<label>
-
-<input
-type="radio"
-name="strategy"
-value="Activacion">
-
-Analizar primero proveedores en proceso de activación.
-
-</label>
-
-<label>
-
-<input
-type="radio"
-name="strategy"
-value="Activos">
-
-Analizar primero proveedores activos con bajas ventas.
-
-</label>
-
-<label>
-
-<input
-type="radio"
-name="strategy"
-value="Comparar">
-
-Comparar ambos grupos antes de priorizar.
-
-</label>
-
-</div>
-
-`;
-
-}
-
 function saveStep2(){
+
+appState.discovery.evidence=[];
 
 const checks=document.querySelectorAll('input[type="checkbox"]:checked');
 
+checks.forEach(item=>{
+
+appState.discovery.evidence.push(item.value);
+
+});
+
 const strategy=document.querySelector('input[name="strategy"]:checked');
 
-if(checks.length===0 && !strategy){
+if(appState.discovery.initialDecision==="Ambos"){
 
-alert("Selecciona al menos una opción para continuar.");
+if(!strategy){
+
+alert("Selecciona una estrategia para continuar.");
 
 return;
 
 }
 
-appState.discovery.step2Selections=[...checks].map(c=>c.value);
-
-if(strategy){
-
-appState.discovery.step2Strategy=strategy.value;
+appState.discovery.strategy=strategy.value;
 
 }
 
-loadStep(2);
+else{
+
+if(appState.discovery.evidence.length===0){
+
+alert("Selecciona al menos una evidencia.");
+
+return;
+
+}
+
+}
+
+goToStep(2);
 
 }
 //======================================================
@@ -548,42 +609,25 @@ loadStep(2);
 
 function renderStep3(){
 
-const decision=appState.discovery.initialDecision;
-
 let options="";
 
-if(decision==="Activacion"){
+switch(appState.discovery.initialDecision){
+
+case "Activacion":
 
 options=`
 
 <label>
 
-<input
-type="radio"
-name="hypothesis"
-value="Proceso de incorporación complejo">
+<input type="radio" name="hypothesis" value="Fricción durante la activación">
 
-El proceso de incorporación genera fricción antes de la primera venta.
+El proceso de activación genera fricción antes de la primera venta.
 
 </label>
 
 <label>
 
-<input
-type="radio"
-name="hypothesis"
-value="Catálogo poco atractivo">
-
-El catálogo publicado no genera suficiente confianza.
-
-</label>
-
-<label>
-
-<input
-type="radio"
-name="hypothesis"
-value="Falta de acompañamiento">
+<input type="radio" name="hypothesis" value="Falta de acompañamiento">
 
 Los nuevos proveedores necesitan mayor acompañamiento durante la activación.
 
@@ -591,10 +635,15 @@ Los nuevos proveedores necesitan mayor acompañamiento durante la activación.
 
 <label>
 
-<input
-type="radio"
-name="hypothesis"
-value="Baja visibilidad">
+<input type="radio" name="hypothesis" value="Catálogo poco atractivo">
+
+El catálogo no genera suficiente confianza para impulsar la primera compra.
+
+</label>
+
+<label>
+
+<input type="radio" name="hypothesis" value="Baja visibilidad">
 
 Los productos tienen poca visibilidad dentro del ecosistema.
 
@@ -602,29 +651,23 @@ Los productos tienen poca visibilidad dentro del ecosistema.
 
 `;
 
-}
+break;
 
-else if(decision==="Activos"){
+case "Activos":
 
 options=`
 
 <label>
 
-<input
-type="radio"
-name="hypothesis"
-value="Problemas de cumplimiento SLA">
+<input type="radio" name="hypothesis" value="Problemas de cumplimiento">
 
-El cumplimiento del SLA afecta la conversión.
+El cumplimiento del SLA está afectando las ventas.
 
 </label>
 
 <label>
 
-<input
-type="radio"
-name="hypothesis"
-value="Problemas de calidad">
+<input type="radio" name="hypothesis" value="Problemas de calidad">
 
 La calidad del producto impacta la recompra.
 
@@ -632,10 +675,7 @@ La calidad del producto impacta la recompra.
 
 <label>
 
-<input
-type="radio"
-name="hypothesis"
-value="Catálogo poco competitivo">
+<input type="radio" name="hypothesis" value="Catálogo poco competitivo">
 
 El catálogo dejó de ser competitivo.
 
@@ -643,53 +683,41 @@ El catálogo dejó de ser competitivo.
 
 <label>
 
-<input
-type="radio"
-name="hypothesis"
-value="Experiencia del cliente">
+<input type="radio" name="hypothesis" value="Experiencia del cliente">
 
-La experiencia del cliente reduce las ventas recurrentes.
+La experiencia del cliente limita el crecimiento.
 
 </label>
 
 `;
 
-}
+break;
 
-else{
+default:
 
 options=`
 
 <label>
 
-<input
-type="radio"
-name="hypothesis"
-value="Activación">
+<input type="radio" name="hypothesis" value="Priorizar activación">
 
-La mayor oportunidad parece estar en los proveedores en activación.
+La mayor oportunidad parece estar en proveedores en activación.
 
 </label>
 
 <label>
 
-<input
-type="radio"
-name="hypothesis"
-value="Activos">
+<input type="radio" name="hypothesis" value="Priorizar activos">
 
-La mayor oportunidad parece estar en los proveedores activos.
+La mayor oportunidad parece estar en proveedores activos.
 
 </label>
 
 <label>
 
-<input
-type="radio"
-name="hypothesis"
-value="Más evidencia">
+<input type="radio" name="hypothesis" value="Más investigación">
 
-Se requiere mayor evidencia antes de priorizar.
+Se necesita mayor evidencia antes de priorizar.
 
 </label>
 
@@ -701,17 +729,17 @@ content.innerHTML=`
 
 <div class="card">
 
-<h3>${steps[2].title}</h3>
+<h3>Hipótesis de mayor oportunidad</h3>
 
 <p>
 
-Con base en la evidencia seleccionada, formula la hipótesis que representa la mayor oportunidad para cumplir el reto del negocio.
+La evidencia seleccionada permite formular una hipótesis que explique dónde existe la mayor oportunidad de generar impacto.
 
 </p>
 
 <label>
 
-¿Cuál es la hipótesis que mejor explica dónde intervenir?
+Selecciona la hipótesis que mejor representa tu análisis.
 
 </label>
 
@@ -731,7 +759,9 @@ ${options}
 
 id="hypothesisEvidence"
 
-placeholder="Explica brevemente por qué esta hipótesis representa la mayor oportunidad de impacto.">
+placeholder="Explica qué evidencia te llevó a esta conclusión...">
+
+${appState.discovery.hypothesisEvidence}
 
 </textarea>
 
@@ -763,354 +793,90 @@ return;
 
 }
 
-appState.discovery.opportunityHypothesis=hypothesis.value;
+const evidence=document.getElementById("hypothesisEvidence").value.trim();
 
-appState.discovery.hypothesisEvidence=document.getElementById("hypothesisEvidence").value;
+if(evidence===""){
 
-loadStep(3);
-
-}
-//======================================================
-// PASO 3 - HIPÓTESIS DE MAYOR OPORTUNIDAD
-//======================================================
-
-function renderStep3(){
-
-const decision=appState.discovery.initialDecision;
-
-let options="";
-
-if(decision==="Activacion"){
-
-options=`
-
-<label>
-
-<input
-type="radio"
-name="hypothesis"
-value="Proceso de incorporación complejo">
-
-El proceso de incorporación genera fricción antes de la primera venta.
-
-</label>
-
-<label>
-
-<input
-type="radio"
-name="hypothesis"
-value="Catálogo poco atractivo">
-
-El catálogo publicado no genera suficiente confianza.
-
-</label>
-
-<label>
-
-<input
-type="radio"
-name="hypothesis"
-value="Falta de acompañamiento">
-
-Los nuevos proveedores necesitan mayor acompañamiento durante la activación.
-
-</label>
-
-<label>
-
-<input
-type="radio"
-name="hypothesis"
-value="Baja visibilidad">
-
-Los productos tienen poca visibilidad dentro del ecosistema.
-
-</label>
-
-`;
-
-}
-
-else if(decision==="Activos"){
-
-options=`
-
-<label>
-
-<input
-type="radio"
-name="hypothesis"
-value="Problemas de cumplimiento SLA">
-
-El cumplimiento del SLA afecta la conversión.
-
-</label>
-
-<label>
-
-<input
-type="radio"
-name="hypothesis"
-value="Problemas de calidad">
-
-La calidad del producto impacta la recompra.
-
-</label>
-
-<label>
-
-<input
-type="radio"
-name="hypothesis"
-value="Catálogo poco competitivo">
-
-El catálogo dejó de ser competitivo.
-
-</label>
-
-<label>
-
-<input
-type="radio"
-name="hypothesis"
-value="Experiencia del cliente">
-
-La experiencia del cliente reduce las ventas recurrentes.
-
-</label>
-
-`;
-
-}
-
-else{
-
-options=`
-
-<label>
-
-<input
-type="radio"
-name="hypothesis"
-value="Activación">
-
-La mayor oportunidad parece estar en los proveedores en activación.
-
-</label>
-
-<label>
-
-<input
-type="radio"
-name="hypothesis"
-value="Activos">
-
-La mayor oportunidad parece estar en los proveedores activos.
-
-</label>
-
-<label>
-
-<input
-type="radio"
-name="hypothesis"
-value="Más evidencia">
-
-Se requiere mayor evidencia antes de priorizar.
-
-</label>
-
-`;
-
-}
-
-content.innerHTML=`
-
-<div class="card">
-
-<h3>${steps[2].title}</h3>
-
-<p>
-
-Con base en la evidencia seleccionada, formula la hipótesis que representa la mayor oportunidad para cumplir el reto del negocio.
-
-</p>
-
-<label>
-
-¿Cuál es la hipótesis que mejor explica dónde intervenir?
-
-</label>
-
-<div class="options">
-
-${options}
-
-</div>
-
-<label>
-
-¿Qué evidencia respalda esta hipótesis?
-
-</label>
-
-<textarea
-
-id="hypothesisEvidence"
-
-placeholder="Explica brevemente por qué esta hipótesis representa la mayor oportunidad de impacto.">
-
-</textarea>
-
-<button
-
-class="nextBtn"
-
-onclick="saveStep3()">
-
-Guardar y continuar →
-
-</button>
-
-</div>
-
-`;
-
-}
-
-function saveStep3(){
-
-const hypothesis=document.querySelector('input[name="hypothesis"]:checked');
-
-if(!hypothesis){
-
-alert("Selecciona una hipótesis para continuar.");
+alert("Describe la evidencia que respalda tu hipótesis.");
 
 return;
 
 }
 
-appState.discovery.opportunityHypothesis=hypothesis.value;
+appState.discovery.hypothesis=hypothesis.value;
 
-appState.discovery.hypothesisEvidence=document.getElementById("hypothesisEvidence").value;
+appState.discovery.hypothesisEvidence=evidence;
 
-loadStep(3);
+goToStep(3);
 
 }
 //======================================================
-// PASO 5 - RESPUESTA AL DESAFÍO
+// PASO 4 - ANÁLISIS DE LA OPORTUNIDAD
 //======================================================
 
-function renderStep5(){
-
-const evidence =
-appState.discovery.step2Selections.length > 0
-? appState.discovery.step2Selections.join(", ")
-: appState.discovery.step2Strategy;
+function renderStep4(){
 
 content.innerHTML=`
 
 <div class="card">
 
-<h2>🎯 Respuesta al desafío</h2>
+<h3>Análisis de la oportunidad</h3>
 
 <p>
 
-El framework consolidó la información registrada durante el Discovery y construyó una recomendación basada en evidencia.
+Hasta este punto ya existe una hipótesis priorizada. Ahora debes justificar por qué representa la mejor oportunidad para responder el desafío del negocio.
 
 </p>
-
-<div class="insight-box">
-
-<h3>¿Por dónde empezarías tú, y por qué?</h3>
-
-<p>
-
-${appState.recommendation.frameworkRecommendation}
-
-</p>
-
-</div>
 
 <div class="known-box">
 
-<h3>🧭 ¿Cómo llegó el framework a esta decisión?</h3>
+<h3>Resumen del análisis</h3>
 
 <ul>
 
-<li><strong>Caso de estudio:</strong> Proveedores de la categoría Moda.</li>
-
 <li><strong>Decisión inicial:</strong> ${appState.discovery.initialDecision}</li>
 
-<li><strong>Evidencia priorizada:</strong> ${evidence}</li>
+<li><strong>Hipótesis:</strong> ${appState.discovery.hypothesis}</li>
 
-<li><strong>Hipótesis de oportunidad:</strong> ${appState.discovery.opportunityHypothesis}</li>
-
-<li><strong>Justificación:</strong> ${appState.discovery.impactReason}</li>
-
-<li><strong>Riesgo identificado:</strong> ${appState.discovery.risk}</li>
+<li><strong>Evidencia:</strong> ${
+appState.discovery.evidence.length>0
+? appState.discovery.evidence.join(", ")
+: appState.discovery.strategy
+}</li>
 
 </ul>
 
 </div>
 
-<div class="goal-box">
-
-<h3>✅ Próximo paso recomendado</h3>
-
-<p>
-
-Antes de desarrollar una solución de producto, el framework recomienda validar esta hipótesis mediante un experimento controlado que permita confirmar su impacto sobre el negocio.
-
-</p>
-
-</div>
-
 <label>
 
-¿Estás de acuerdo con esta decisión?
-
-</label>
-
-<div class="options">
-
-<label>
-
-<input
-type="radio"
-name="decision"
-value="yes"
-checked>
-
-Sí, continuar con el diseño de validación.
-
-</label>
-
-<label>
-
-<input
-type="radio"
-name="decision"
-value="no">
-
-No, deseo replantear el análisis.
-
-</label>
-
-</div>
-
-<label>
-
-Comentarios (opcional)
+¿Por qué esta hipótesis representa la mayor oportunidad para lograr que más proveedores vendan más y mejor sin afectar el SLA ni la calidad?
 
 </label>
 
 <textarea
 
-id="justification"
+id="impactReason"
 
-placeholder="Si no estás de acuerdo, explica brevemente el motivo.">
+placeholder="Explica el impacto esperado sobre el negocio...">
+
+${appState.discovery.impactReason}
+
+</textarea>
+
+<label>
+
+¿Cuál es el principal riesgo o supuesto que debería validarse antes de construir una solución?
+
+</label>
+
+<textarea
+
+id="risk"
+
+placeholder="Describe el principal riesgo de esta decisión...">
+
+${appState.discovery.risk}
 
 </textarea>
 
@@ -1118,9 +884,9 @@ placeholder="Si no estás de acuerdo, explica brevemente el motivo.">
 
 class="nextBtn"
 
-onclick="saveRecommendation()">
+onclick="saveStep4()">
 
-Continuar al diseño de validación →
+Generar recomendación →
 
 </button>
 
@@ -1130,23 +896,232 @@ Continuar al diseño de validación →
 
 }
 
-function saveRecommendation(){
+function saveStep4(){
 
-const decision=document.querySelector('input[name="decision"]:checked').value;
+const impact=document.getElementById("impactReason").value.trim();
 
-appState.recommendation.accepted=(decision==="yes");
+const risk=document.getElementById("risk").value.trim();
 
-appState.recommendation.justification=document.getElementById("justification").value;
+if(impact===""){
 
-if(!appState.recommendation.accepted){
-
-loadStep(0);
+alert("Describe por qué esta hipótesis representa la mayor oportunidad.");
 
 return;
 
 }
 
-renderValidation();
+if(risk===""){
+
+alert("Describe el principal riesgo de la decisión.");
+
+return;
+
+}
+
+appState.discovery.impactReason=impact;
+
+appState.discovery.risk=risk;
+
+//------------------------------------------------------
+// Construcción automática de la recomendación
+//------------------------------------------------------
+
+let recommendation="";
+
+switch(appState.discovery.initialDecision){
+
+case "Activacion":
+
+recommendation=`
+Se recomienda comenzar por los proveedores en proceso de activación.
+
+La evidencia priorizada sugiere que incrementar la tasa de primera venta representa la oportunidad con mayor potencial para aumentar el número de proveedores activos sin comprometer el SLA ni la calidad.
+
+Antes de desarrollar una solución, se recomienda validar esta hipótesis mediante un experimento controlado.
+`;
+
+break;
+
+case "Activos":
+
+recommendation=`
+Se recomienda comenzar por los proveedores activos con bajas ventas.
+
+La evidencia indica que optimizar su desempeño puede incrementar las ventas aprovechando una base ya consolidada, siempre validando previamente el impacto sobre el SLA y la calidad.
+`;
+
+break;
+
+default:
+
+recommendation=`
+Se recomienda iniciar con un análisis comparativo entre proveedores en activación y proveedores activos con bajas ventas.
+
+La evidencia disponible todavía no permite priorizar un único segmento con suficiente confianza, por lo que el siguiente paso debe ser validar cuál representa la mayor oportunidad de negocio.
+`;
+
+}
+
+appState.recommendation.frameworkRecommendation=recommendation;
+
+goToStep(4);
+
+}
+//======================================================
+// PASO 4 - ANÁLISIS DE LA OPORTUNIDAD
+//======================================================
+
+function renderStep4(){
+
+content.innerHTML=`
+
+<div class="card">
+
+<h3>Análisis de la oportunidad</h3>
+
+<p>
+
+Hasta este punto ya existe una hipótesis priorizada. Ahora debes justificar por qué representa la mejor oportunidad para responder el desafío del negocio.
+
+</p>
+
+<div class="known-box">
+
+<h3>Resumen del análisis</h3>
+
+<ul>
+
+<li><strong>Decisión inicial:</strong> ${appState.discovery.initialDecision}</li>
+
+<li><strong>Hipótesis:</strong> ${appState.discovery.hypothesis}</li>
+
+<li><strong>Evidencia:</strong> ${
+appState.discovery.evidence.length>0
+? appState.discovery.evidence.join(", ")
+: appState.discovery.strategy
+}</li>
+
+</ul>
+
+</div>
+
+<label>
+
+¿Por qué esta hipótesis representa la mayor oportunidad para lograr que más proveedores vendan más y mejor sin afectar el SLA ni la calidad?
+
+</label>
+
+<textarea
+
+id="impactReason"
+
+placeholder="Explica el impacto esperado sobre el negocio...">
+
+${appState.discovery.impactReason}
+
+</textarea>
+
+<label>
+
+¿Cuál es el principal riesgo o supuesto que debería validarse antes de construir una solución?
+
+</label>
+
+<textarea
+
+id="risk"
+
+placeholder="Describe el principal riesgo de esta decisión...">
+
+${appState.discovery.risk}
+
+</textarea>
+
+<button
+
+class="nextBtn"
+
+onclick="saveStep4()">
+
+Generar recomendación →
+
+</button>
+
+</div>
+
+`;
+
+}
+
+function saveStep4(){
+
+const impact=document.getElementById("impactReason").value.trim();
+
+const risk=document.getElementById("risk").value.trim();
+
+if(impact===""){
+
+alert("Describe por qué esta hipótesis representa la mayor oportunidad.");
+
+return;
+
+}
+
+if(risk===""){
+
+alert("Describe el principal riesgo de la decisión.");
+
+return;
+
+}
+
+appState.discovery.impactReason=impact;
+
+appState.discovery.risk=risk;
+
+//------------------------------------------------------
+// Construcción automática de la recomendación
+//------------------------------------------------------
+
+let recommendation="";
+
+switch(appState.discovery.initialDecision){
+
+case "Activacion":
+
+recommendation=`
+Se recomienda comenzar por los proveedores en proceso de activación.
+
+La evidencia priorizada sugiere que incrementar la tasa de primera venta representa la oportunidad con mayor potencial para aumentar el número de proveedores activos sin comprometer el SLA ni la calidad.
+
+Antes de desarrollar una solución, se recomienda validar esta hipótesis mediante un experimento controlado.
+`;
+
+break;
+
+case "Activos":
+
+recommendation=`
+Se recomienda comenzar por los proveedores activos con bajas ventas.
+
+La evidencia indica que optimizar su desempeño puede incrementar las ventas aprovechando una base ya consolidada, siempre validando previamente el impacto sobre el SLA y la calidad.
+`;
+
+break;
+
+default:
+
+recommendation=`
+Se recomienda iniciar con un análisis comparativo entre proveedores en activación y proveedores activos con bajas ventas.
+
+La evidencia disponible todavía no permite priorizar un único segmento con suficiente confianza, por lo que el siguiente paso debe ser validar cuál representa la mayor oportunidad de negocio.
+`;
+
+}
+
+appState.recommendation.frameworkRecommendation=recommendation;
+
+goToStep(4);
 
 }
 //======================================================
@@ -1163,17 +1138,17 @@ content.innerHTML=`
 
 <p>
 
-Antes de invertir en el desarrollo de una solución, el siguiente paso consiste en validar que la hipótesis realmente genere el impacto esperado sobre el negocio.
+Toda decisión de producto debe validarse antes de escalar una solución. Diseña un experimento que permita confirmar o rechazar la hipótesis priorizada.
 
 </p>
 
 <div class="goal-box">
 
-<h3>Hipótesis a validar</h3>
+<h3>Hipótesis priorizada</h3>
 
 <p>
 
-${appState.discovery.opportunityHypothesis}
+${appState.discovery.hypothesis}
 
 </p>
 
@@ -1187,9 +1162,11 @@ Hipótesis del experimento
 
 <textarea
 
-id="hypothesis"
+id="validationHypothesis"
 
 placeholder="Si implementamos esta iniciativa esperamos que...">
+
+${appState.validation.hypothesis}
 
 </textarea>
 
@@ -1201,37 +1178,43 @@ placeholder="Si implementamos esta iniciativa esperamos que...">
 
 <textarea
 
-id="experiment"
+id="validationExperiment"
 
-placeholder="Describe el experimento que ejecutarías.">
+placeholder="Describe el experimento que ejecutarías...">
+
+${appState.validation.experiment}
 
 </textarea>
 
 <label>
 
-¿Cómo medirías el éxito?
+¿Qué indicadores utilizarías para medir el éxito?
 
 </label>
 
 <textarea
 
-id="kpis"
+id="validationKpis"
 
-placeholder="Ej.: % de proveedores con primera venta, Ventas, SLA, Calidad, Cancelaciones...">
+placeholder="Ej.: % Primera Venta, Tiempo Primera Venta, SLA, Calidad...">
+
+${appState.validation.kpis}
 
 </textarea>
 
 <label>
 
-Tiempo estimado del experimento
+Duración del experimento
 
 </label>
 
 <input
 
-id="duration"
+id="validationDuration"
 
-placeholder="Ej.: 30 días">
+placeholder="Ej.: 30 días"
+
+value="${appState.validation.duration}">
 
 <button
 
@@ -1239,7 +1222,7 @@ class="nextBtn"
 
 onclick="saveValidation()">
 
-Generar resumen ejecutivo →
+Generar Resumen Ejecutivo →
 
 </button>
 
@@ -1251,37 +1234,47 @@ Generar resumen ejecutivo →
 
 function saveValidation(){
 
-appState.validation.hypothesis=document.getElementById("hypothesis").value;
+appState.validation.hypothesis=document.getElementById("validationHypothesis").value;
 
-appState.validation.experiment=document.getElementById("experiment").value;
+appState.validation.experiment=document.getElementById("validationExperiment").value;
 
-appState.validation.kpis=document.getElementById("kpis").value;
+appState.validation.kpis=document.getElementById("validationKpis").value;
 
-appState.validation.duration=document.getElementById("duration").value;
+appState.validation.duration=document.getElementById("validationDuration").value;
 
 renderExecutiveBrief();
 
 }
+
 //======================================================
 // RESUMEN EJECUTIVO
 //======================================================
 
 function renderExecutiveBrief(){
 
-const evidence =
-appState.discovery.step2Selections.length>0
-? appState.discovery.step2Selections.join(", ")
-: appState.discovery.step2Strategy;
+const evidence=
+
+appState.discovery.evidence.length>0
+
+? appState.discovery.evidence.join(", ")
+
+: appState.discovery.strategy;
 
 content.innerHTML=`
 
 <div class="card">
 
-<h2>📄 Resumen ejecutivo</h2>
+<h2>📄 Executive Brief</h2>
+
+<p>
+
+El Framework completó el proceso de análisis y generó una recomendación sustentada en evidencia.
+
+</p>
 
 <div class="goal-box">
 
-<h3>🎯 Respuesta al desafío</h3>
+<h3>Respuesta al desafío</h3>
 
 <p>
 
@@ -1293,27 +1286,27 @@ ${appState.recommendation.frameworkRecommendation}
 
 <hr>
 
-<h3>🧭 Trazabilidad de la decisión</h3>
+<h3>Trazabilidad de la decisión</h3>
 
 <ul>
 
-<li><strong>Caso de estudio:</strong> Categoría Moda.</li>
+<li><strong>Caso:</strong> Categoría Moda.</li>
 
-<li><strong>Decisión inicial:</strong> ${appState.discovery.initialDecision}</li>
+<li><strong>Punto de partida:</strong> ${appState.discovery.initialDecision}</li>
 
-<li><strong>Evidencia priorizada:</strong> ${evidence}</li>
+<li><strong>Evidencia:</strong> ${evidence}</li>
 
-<li><strong>Hipótesis de oportunidad:</strong> ${appState.discovery.opportunityHypothesis}</li>
+<li><strong>Hipótesis:</strong> ${appState.discovery.hypothesis}</li>
 
 <li><strong>Justificación:</strong> ${appState.discovery.impactReason}</li>
 
-<li><strong>Riesgo identificado:</strong> ${appState.discovery.risk}</li>
+<li><strong>Riesgo:</strong> ${appState.discovery.risk}</li>
 
 </ul>
 
 <hr>
 
-<h3>🧪 Diseño de validación</h3>
+<h3>Diseño de validación</h3>
 
 <p><strong>Hipótesis</strong></p>
 
@@ -1327,25 +1320,23 @@ ${appState.recommendation.frameworkRecommendation}
 
 <br>
 
-<p><strong>Indicadores de éxito</strong></p>
+<p><strong>KPIs</strong></p>
 
 <p>${appState.validation.kpis}</p>
 
 <br>
 
-<p><strong>Tiempo estimado</strong></p>
+<p><strong>Duración</strong></p>
 
 <p>${appState.validation.duration}</p>
 
-<hr>
+<div class="info-note">
 
-<div class="known-box">
-
-<h3>🚀 Próximos pasos</h3>
+<strong>Conclusión</strong>
 
 <p>
 
-Ejecutar el experimento, analizar los resultados y utilizar la evidencia obtenida para decidir si la iniciativa debe escalarse, ajustarse o descartarse.
+La recomendación final no consiste en construir inmediatamente una funcionalidad, sino en validar primero la hipótesis priorizada mediante un experimento controlado. Solo después de obtener evidencia suficiente se recomienda avanzar al desarrollo del <strong>Centro de Activación Inteligente</strong>.
 
 </p>
 
@@ -1355,9 +1346,9 @@ Ejecutar el experimento, analizar los resultados y utilizar la evidencia obtenid
 
 class="nextBtn"
 
-onclick="exportBrief()">
+onclick="restartFramework()">
 
-📄 Exportar resumen ejecutivo
+🔄 Ejecutar un nuevo caso
 
 </button>
 
@@ -1368,22 +1359,11 @@ onclick="exportBrief()">
 }
 
 //======================================================
-// EXPORTAR
+// REINICIAR
 //======================================================
 
-function exportBrief(){
+function restartFramework(){
 
-alert(`
-
-🎉 ¡Gracias por utilizar el Product Decision Framework!
-
-En la siguiente versión podrás:
-
-• Exportar el resumen ejecutivo en PDF.
-• Compartir el análisis.
-• Guardar múltiples casos de estudio.
-• Comparar decisiones entre distintos escenarios.
-
-`);
+location.reload();
 
 }
