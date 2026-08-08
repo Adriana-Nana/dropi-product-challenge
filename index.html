@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Product Decision Framework</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <header class="hero">
+
+            <div>
+
+                <h1>Product Decision Framework</h1>
+
+                <p class="subtitle">
+                    Transformando evidencia en decisiones de producto.
+                </p>
+
+            </div>
+
+            <div class="framework-tag">
+
+                Business Challenge →
+                Evidence →
+                Decisión →
+                Validación
+
+            </div>
+
+        </header>
+
+        <section class="business-challenge">
+
+    <h2>Caso de estudio</h2>
+
+    <p>
+
+        Este framework simula un caso real de negocio de Dropi. A partir de la información disponible, el objetivo es identificar la intervención de mayor impacto para lograr que más proveedores vendan más y mejor, sin afectar el SLA ni la calidad del servicio.
+
+    </p>
+
+</section>
+                <section class="framework">
+
+            <div class="left-panel">
+
+                <h2>Fase 1 · Product Decision Framework</h2>
+
+<p>
+
+Transforma evidencia de negocio en decisiones de producto mediante un proceso estructurado de descubrimiento, priorización y validación.
+
+</p>
+
+<div class="case-box">
+
+<h3>📌 Caso de estudio</h3>
+
+<p>
+
+Dropi busca responder el reto:
+
+<strong>"Más proveedores vendiendo más y mejor, sin afectar el SLA ni la calidad del servicio."</strong>
+
+</p>
+
+<p>
+
+Para este ejercicio se seleccionó como caso de estudio la categoría <strong>Moda (Ropa)</strong>, una de las categorías con mayor oportunidad de mejora debido a devoluciones por talla, expectativas del cliente y consistencia del producto.
+
+</p>
+
+<ul>
+
+<li>👥 Actualmente existen <strong>100 proveedores</strong> registrados en esta categoría.</li>
+
+<li>📉 El <strong>20%</strong> presenta bajas ventas.</li>
+
+<li>🚀 El análisis debe considerar tanto <strong>proveedores activos</strong> como <strong>proveedores en proceso de activación</strong>.</li>
+
+<li>📊 Se dispone de indicadores de ventas, SLA, cancelaciones, garantías y rechazos.</li>
+
+<li>⭐ Se conocen los indicadores de desempeño de los proveedores Premium.</li>
+
+</ul>
+
+<p>
+
+<strong>Objetivo del Framework:</strong>
+
+Identificar la intervención de mayor impacto para lograr que más proveedores vendan más y mejor, sin afectar el SLA ni la calidad del servicio.
+
+</p>
+
+</div>
+
+                <button id="startBtn">
+
+    🚀 Iniciar análisis
+
+</button>
+
+<div class="progress">
+
+    <div class="progress-title">
+
+        <span>Fase 1 de 3 · Product Decision Framework</span>
+
+        <span id="progressText">20%</span>
+
+    </div>
+
+    <div class="progress-track">
+
+        <div
+            class="progress-value"
+            id="progressBar"
+        ></div>
+
+    </div>
+
+</div>
+
+<div class="insight-box" id="insightBox">
+
+    <h3>💡 Insight generado</h3>
+
+    <p id="insightText">
+
+        Aún no existe suficiente evidencia para generar un insight.
+
+        Complete el análisis para que el framework identifique la principal oportunidad.
+
+    </p>
+
+</div>
+
+<div id="content"></div>
+
+            </div>
+
+            <aside class="right-panel">
+
+                <h3>Framework</h3>
+
+                <ul id="steps">
+
+                    <li id="step1">① Información existente</li>
+
+                    <li id="step2">② Identificación de brechas</li>
+
+                    <li id="step3">③ Segmentación</li>
+
+                    <li id="step4">④ Análisis causa raíz</li>
+
+                    <li id="step5">⑤ Product Recommendation</li>
+
+                    <hr>
+
+                    <li>FASE 2</li>
+
+                    <li onclick="phase2ComingSoon()" style="cursor:pointer;">
+    ⑥ Validation Design
+</li>
+
+                    <li>• Hipótesis</li>
+
+                    <li>• Experimento</li>
+
+                    <li>• KPIs</li>
+
+                    <li>• Executive Brief</li>
+
+                    <hr>
+
+                    <li>FASE 3</li>
+
+                    <li onclick="phase3ComingSoon()" style="cursor:pointer;">
+    ⑦ Experiment Review
+</li>
+
+                    <li>• Seguimiento</li>
+
+                    <li>• Medición</li>
+
+                    <li>• Aprendizajes</li>
+
+                    <li>• Escalar / Iterar / Descartar</li>
+
+                </ul>
+
+            </aside>
+
+        </section>
+            <footer>
+
+        <p>
+
+            Product Decision Framework · Evidence → Decisions → Validation
+
+        </p>
+
+    </footer>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
